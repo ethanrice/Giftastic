@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>My Favorite Movie Giphs</title>
+</head>
+
+<body>
+  <div id="buttons">
+    <button data-movie="lord of the rings">
+      The Lord of the Rings
+    </button>
+    <button data-movie="star wars">
+      Star Wars
+    </button>
+    <button data-movie="the bourne identity">
+      The Bourne Identity
+    </button>
+    <button data-movie="john wick">
+      John Wick
+    </button>
+    <button data-movie="pokemon the first movie">
+      Pokemon: The First Movie
+    </button>
+    <button data-movie="raiders of the lost ark">
+      Raiders of the Lost Ark
+    </button>
+    <button data-movie="spiderman homecoming">
+      Spider-man: Homecoming
+    </button>
+    <button data-movie="interstellar movie">
+      Interstellar
+    </button>
+    <button data-movie="signs movie">
+      Signs
+    </button>
+    <button data-movie="gladiator movie">
+      Gladiator
+    </button>
+    <button data-movie="true grit john wayne">
+      True Grit
+    </button>
+    <button data-movie="captain america the winter solider">
+      Captain America: The Winter Soldier
+    </button>
+    <button data-movie="good burger">
+      Good Burger
+    </button>
+    <button data-movie="dumb and dumber">
+      Dumb and Dumber
+    </button>
+    <button data-movie="the sandlot">
+      The Sandlot
+    </button>
+    <button data-movie="heavyweights movie">
+      Heavyweights
+    </button>
+    <button data-movie="the lion king">
+      The Lion King
+    </button>
+    <button data-movie="inglourious basterds">
+      Inglourious Basterds
+    </button>
+    <button data-movie="Deadpool movie">
+      Deadpool
+    </button>
+    <button data-movie="the dark knight">
+      The Dark Knight
+    </button>
+    <button data-movie="shaun of the dead">
+      Shaun of the Dead
+    </button>
+
+    </div>
+
+    <form id="movie-form">
+        <label for="movie-input">Add your own movie.</label>
+        <input type="text" id="movie-input"></input>
+
+        <input id="addMovie" type="submit" value="Submit">
+    
+    </form>
+
+  <div id="gifs-appear-here">
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    $("button").on("click", function() {
+      var person = $(this).attr("data-movie");
+      var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=kvcwYGBEMZX7UMif7H38qSXHaBFFKg8R&q=" + person 
+      + "&limit=10&offset=0&rating=G&lang=en";
+
+      $.ajax({
+        url: queryURL,
+        method: "GET"
+      })
+        .then(function(response) {
+          var results = response.data;
+
+          for (var i = 0; i < results.length; i++) {
+            var gifDiv = $("<div class='item'>");
+
+            var rating = results[i].rating;
+
+            var p = $("<p>").text("Rating: " + rating);
+
+            var movieImage = $("<img>");
+            movieImage.attr("src", results[i].images.fixed_height.url);
+
+            gifDiv.prepend(p);
+            gifDiv.prepend(movieImage);
+
+            $("#gifs-appear-here").prepend(gifDiv);
+          }
+        });
+    });
+  </script>
+</body>
+
+</html>
